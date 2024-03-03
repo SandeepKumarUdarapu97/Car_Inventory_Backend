@@ -2,24 +2,30 @@ import { Request, Response } from 'express';
 import User, { UserDocument } from '../models/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { log } from 'console';
 
 const generateToken = (user: UserDocument): string => {
-  return jwt.sign({ id: user._id, username: user.username, role: user.role }, 'your-secret-key', { expiresIn: '1h' });
+  return jwt.sign({ id: user._id, username: user.username, role: user.role }, 'secret-key', { expiresIn: '1h' });
 };
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, password } = req.body;
 
-    const user: UserDocument | null = await User.findOne({ username });
+    console.log("userName : ",username,password);
+    
 
+    const user: UserDocument | null = await User.findOne({ username });
+    console.log("userName : ",user);
     if (!user) {
+      console.log("userName : triggered");
       res.status(401).json({ message: 'Invalid credentials' });
     }else {
 
-    const passwordMatch: boolean = await bcrypt.compare(password, user.password);
+    const passwordMatch: boolean = password === user.password;
 
     if (!passwordMatch) {
+      console.log("userName : triggered 2");
       res.status(401).json({ message: 'Invalid credentials' });
     }else{
     const token: string = generateToken(user);

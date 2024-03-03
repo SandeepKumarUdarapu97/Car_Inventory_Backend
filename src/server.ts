@@ -6,7 +6,7 @@ import adminRoutes from './routes/adminRoutes';
 import userRoutes from './routes/userRoutes';
 
 const app = express();
-const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const PORT: number = 3001;
 
 app.use(bodyParser.json());
 
@@ -24,6 +24,21 @@ const connectToMongoDB = async () => {
 };
 
 connectToMongoDB();
+
+const defaultConfig = {
+  "name": "required",
+  "gender": "required",
+  "age": "required",
+  "profession": "required",
+  "services": "required",
+  "How did you find us":"required",
+  "timer": 1
+};
+
+
+app.get('/config', (req, res) => {
+  res.json(defaultConfig);
+});
 
 // Routes
 app.use('/auth', authRoutes);
