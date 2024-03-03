@@ -4,6 +4,7 @@ interface CarAttributes {
   modelName: string;
   brand: string;
   quantity: number;
+  price: number;
 }
 
 export interface CarDocument extends Document, CarAttributes {}
@@ -15,6 +16,7 @@ const carSchema = new mongoose.Schema<CarDocument, CarModel>(
     modelName: { type: String, required: true },
     brand: { type: String, required: true },
     quantity: { type: Number, required: true },
+    price: {type: Number, required: true}
   },
   {
     timestamps: true, // Add timestamps to the schema (createdAt and updatedAt)

@@ -3,7 +3,7 @@ import Car, { CarDocument } from "../models/Car";
 import Purchase, { PurchaseDocument } from "../models/Purchase";
 import jwt from "jsonwebtoken";
 
-export const viewAllCarsForAdmin = async (
+export const viewAllCars = async (
   req: Request,
   res: Response
 ): Promise<void> => {

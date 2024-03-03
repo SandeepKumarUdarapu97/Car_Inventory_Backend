@@ -29,14 +29,10 @@ export const viewAllCars = async (
       ) {
         res.status(401).json({ message: "Unauthorized: Invalid token format" });
       } else {
-        if (decodedToken.role !== "admin") {
-          res
-            .status(403)
-            .json({ message: "Forbidden: Insufficient permissions" });
-        } else {
+       
           const cars: CarDocument[] = await Car.find();
           res.status(200).json(cars);
-        }
+    
       }
     }
   } catch (error) {
