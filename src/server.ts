@@ -10,7 +10,8 @@ const app = express();
 const PORT: number = 3001;
 
 app.use(bodyParser.json());
-app.use(cors());
+
+app.use(cors({origin: true, credentials: true}));
 
 // Connect to MongoDB Atlas
 const connectToMongoDB = async () => {
