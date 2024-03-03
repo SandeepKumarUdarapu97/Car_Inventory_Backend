@@ -16,7 +16,7 @@ const carSchema = new mongoose.Schema<CarDocument, CarModel>(
     modelName: { type: String, required: true },
     brand: { type: String, required: true },
     quantity: { type: Number, required: true },
-    price: {type: Number, required: true}
+    price: {type: Number, required: false}
   },
   {
     timestamps: true, // Add timestamps to the schema (createdAt and updatedAt)

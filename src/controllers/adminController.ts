@@ -72,19 +72,19 @@ export const addCar = async (req: Request, res: Response): Promise<void> => {
             .status(403)
             .json({ message: "Forbidden: Insufficient permissions" });
         } else {
-          const { modelName, brand, quantity } = req.body;
+          const { modelName, brand, quantity, price } = req.body;
 
           let car: CarDocument | null = await Car.findOne({ modelName });
 
           if (!car) {
-            car = new Car({ modelName, brand, quantity });
+            car = new Car({ modelName, brand, quantity, price });
           } else {
             car.quantity += quantity;
           }
 
           await car.save();
 
-          res.status(201).json({ message: "Car added successfully" });
+          res.status(200).json({ message: "Car added successfully" });
         }
       }
     }
