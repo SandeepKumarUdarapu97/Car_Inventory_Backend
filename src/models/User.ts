@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema<UserDocument, UserModel>(
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
   },
   {
-    timestamps: true, // Add timestamps to the schema (createdAt and updatedAt)
+    timestamps: true,
   }
 );
 

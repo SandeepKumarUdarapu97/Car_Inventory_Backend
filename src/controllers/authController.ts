@@ -10,11 +10,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, password } = req.body;
 
-    console.log("userName : ",username,password);
-    
-
     const user: UserDocument | null = await User.findOne({ username });
-    console.log("userName : ",user);
     if (!user) {
       res.status(401).json({ message: 'Invalid credentials' });
     }else {
@@ -35,6 +31,5 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const logout = (req: Request, res: Response): void => {
-  // Implement logout logic (if needed)
   res.status(200).json({ message: 'Logout successful' });
 };

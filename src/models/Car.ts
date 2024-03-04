@@ -19,7 +19,7 @@ const carSchema = new mongoose.Schema<CarDocument, CarModel>(
     price: {type: Number, required: false}
   },
   {
-    timestamps: true, // Add timestamps to the schema (createdAt and updatedAt)
+    timestamps: true,
   }
 );
 

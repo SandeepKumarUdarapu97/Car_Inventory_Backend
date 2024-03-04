@@ -133,9 +133,8 @@ export const viewMyPurchases = async (
           user: userId,
         }).populate("car", "modelName brand quantity price").populate("user", "username role");
 
-        // Filter out sensitive information from user details if needed
         const purchasesWithDetails = purchases.map(purchase => ({
-          ...purchase.toObject(), // Convert document to plain object
+          ...purchase.toObject(),
           user: {
             ...purchase.user,
           },

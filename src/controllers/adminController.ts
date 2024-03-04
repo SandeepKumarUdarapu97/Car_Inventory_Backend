@@ -27,13 +27,11 @@ export const viewAllCars = async (
       ) {
         res.status(401).json({ message: "Unauthorized: Invalid token format" });
       } else {
-        // Check if the user has the admin role
         if (decodedToken.role !== "admin") {
           res
             .status(403)
             .json({ message: "Forbidden: Insufficient permissions" });
         } else {
-          // If the user has the admin role, proceed with fetching all cars
           const cars: CarDocument[] = await Car.find();
           res.status(200).json(cars);
         }
@@ -48,7 +46,7 @@ export const viewAllCars = async (
 export const addCar = async (req: Request, res: Response): Promise<void> => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
-
+    
     if (!token) {
       res.status(401).json({ message: "Unauthorized: Missing token" });
     } else {
@@ -66,7 +64,6 @@ export const addCar = async (req: Request, res: Response): Promise<void> => {
       ) {
         res.status(401).json({ message: "Unauthorized: Invalid token format" });
       } else {
-        // Check if the user has the admin role
         if (decodedToken.role !== "admin") {
           res
             .status(403)
@@ -74,12 +71,10 @@ export const addCar = async (req: Request, res: Response): Promise<void> => {
         } else {
           const { modelName, brand, quantity, price } = req.body;
 
-          let car: CarDocument | null = await Car.findOne({ modelName });
+          let car: CarDocument | null =  null;
 
           if (!car) {
             car = new Car({ modelName, brand, quantity, price });
-          } else {
-            car.quantity += quantity;
           }
 
           await car.save();
@@ -118,7 +113,6 @@ export const viewAllPurchases = async (
       ) {
         res.status(401).json({ message: "Unauthorized: Invalid token format" });
       } else {
-        // Check if the user has the admin role
         if (decodedToken.role !== "admin") {
           res
             .status(403)

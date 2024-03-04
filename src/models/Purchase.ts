@@ -19,7 +19,7 @@ const purchaseSchema = new Schema<PurchaseDocument, PurchaseModel>(
     purchaseDate: { type: Date, default: Date.now },
   },
   {
-    timestamps: true, // Add timestamps to the schema (createdAt and updatedAt)
+    timestamps: true,
   }
 );
 
