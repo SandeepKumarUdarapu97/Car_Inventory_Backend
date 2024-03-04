@@ -42,11 +42,11 @@ export const viewAllCars = async (
 };
 
 export const purchaseCar = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+ req: Request,
+ res: Response,
+ next: NextFunction
 ): Promise<void> => {
-  try {
+ try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
@@ -66,7 +66,9 @@ export const purchaseCar = async (
       ) {
         res.status(401).json({ message: "Unauthorized: Invalid token format" });
       } else {
-        const { userId, carId, quantity } = req.body;
+        const { carId, quantity } = req.body;
+
+        const userId = decodedToken.id;
 
         const user: UserDocument | null = await User.findById(userId);
         const car: CarDocument | null = await Car.findById(carId);
@@ -89,23 +91,23 @@ export const purchaseCar = async (
             car.quantity -= quantity;
             await car.save();
 
-            res.status(201).json({ message: "Purchase successful" });
+            res.status(200).json({ message: "Purchase successful" });
           }
         }
       }
     }
-  } catch (error) {
+ } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
-  }
+ }
 };
 
 export const viewMyPurchases = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+ req: Request,
+ res: Response,
+ next: NextFunction
 ): Promise<void> => {
-  try {
+ try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
@@ -125,19 +127,28 @@ export const viewMyPurchases = async (
       ) {
         res.status(401).json({ message: "Unauthorized: Invalid token format" });
       } else {
-        if (decodedToken.id !== req.params.userId) {
-          res.status(403).json({ message: "Forbidden: Insufficient permissions" });
-        } else {
-          const purchases: PurchaseDocument[] = await Purchase.find({
-            user: decodedToken.id,
-          }).populate("car", "modelName");
-          res.status(200).json(purchases);
-        }
+        const userId = decodedToken.id;
+
+        const purchases: PurchaseDocument[] = await Purchase.find({
+          user: userId,
+        }).populate("car", "modelName brand quantity price").populate("user", "username role");
+
+        // Filter out sensitive information from user details if needed
+        const purchasesWithDetails = purchases.map(purchase => ({
+          ...purchase.toObject(), // Convert document to plain object
+          user: {
+            ...purchase.user,
+          },
+        }));
+
+        res.status(200).json(purchasesWithDetails);
       }
     }
-  } catch (error) {
+ } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
-  }
+ }
 };
+
+
 

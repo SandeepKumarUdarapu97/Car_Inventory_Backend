@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.get('/cars', viewAllCars);
 router.post('/purchase', purchaseCar);
-router.get('/my-purchases', viewMyPurchases);
+router.get('/purchases', viewMyPurchases);
 
 export default router;

@@ -125,10 +125,18 @@ export const viewAllPurchases = async (
             .json({ message: "Forbidden: Insufficient permissions" });
         } else {
           const purchases: PurchaseDocument[] = await Purchase.find()
-            .populate("user", "username")
-            .populate("car", "modelName");
-
-          res.status(200).json(purchases);
+          .populate("car", "modelName brand quantity price").populate("user", "username role");
+          const purchasesWithDetails = purchases.map(purchase => ({
+            ...purchase.toObject(),
+            user: {
+              ...purchase.user,
+            },
+            car: {
+              ...purchase.car
+            }
+          }));
+  
+          res.status(200).json(purchasesWithDetails);
         }
       }
     }
